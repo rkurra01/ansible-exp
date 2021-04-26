@@ -1,0 +1,5 @@
+---
+ name: precheck playbook
+ hosts: all
+ connection: local
+ gather_facts: yes
