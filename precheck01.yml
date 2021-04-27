@@ -1,5 +1,41 @@
 ---
- name: precheck playbook
- hosts: all
- connection: local
- gather_facts: yes
+- name: precheck playbook
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+
+  tasks:
+  - name: ansible location
+    debug:
+            var: ansible_env._
+  - name: ansible location is loaded from user local HOME
+    assert:
+            that:
+                    - ansible_env.HOME in ansible_env._
+
+  - name: os print
+    debug:
+            var: ansible_os_family
+  - name: os assert
+    assert:
+            that:
+                    - ansible_os_family == "Debian"
+
+  - name: ansible version print
+    debug:
+            var: ansible_version
+  - name: ansible_version assert
+    assert:
+            that:
+                    - ansible_version.major >= 2
+                    - ansible_version.minor >= 3
+
+  - name: ansible python version print
+    debug:
+            var: ansible_python
+  - name: ansible_python_version assert
+    assert:
+            that:
+                    - ansible_python.version.major >= 2
+                    - ansible_python.version.minor >= 4
+
